@@ -1,6 +1,12 @@
+import laba1.Alignment
+import laba1.alignText
+
 fun main() {
 
-    val testText = listOf<String>("Some, text example",
+
+     // lab 1
+
+    val testText = listOf("Some, text example",
         "Sometextexample",
         """Some
         |text
@@ -29,4 +35,22 @@ fun main() {
         println(e.message)
 
     }
+
+
+
+    // lab 2
+
+
+    /*val expression = ArithmeticParser()
+
+    try{
+
+        println(expression.calculateExpressionString(""))
+
+    }catch (e: Exception){
+
+        println(e.message)
+    }
+
+    */
 }
