@@ -1,3 +1,5 @@
+package laba1
+
 enum class Alignment {
     LEFT,
     RIGHT,
