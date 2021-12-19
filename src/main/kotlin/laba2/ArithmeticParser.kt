@@ -2,11 +2,11 @@ package laba2
 
 import kotlin.math.pow
 
-    // recursive descent method
+// recursive descent method
 
 class ArithmeticParser {
 
-    fun calculateExpressionString(expressionText: String): Double{
+    fun calculateExpressionString(expressionText: String): Double {
 
         val lexemes = lexAnalyze(expressionText)
 
@@ -19,7 +19,9 @@ class ArithmeticParser {
 
     private fun lexAnalyze(expText: String): List<Lexeme> {
 
-        if(expText.isEmpty()) {throw RuntimeException("Empty string")}
+        if (expText.isEmpty()) {
+            throw RuntimeException("Empty string")
+        }
 
         val lexemes = ArrayList<Lexeme>()
 
@@ -69,7 +71,7 @@ class ArithmeticParser {
 
                     val sb = StringBuilder()
 
-                        // read the number
+                    // read the number
                     do {
                         sb.append(currentSymbol)
                         position++
@@ -81,7 +83,7 @@ class ArithmeticParser {
 
                     } while (currentSymbol in '0'..'9')
 
-                        // add them to the array of tokens
+                    // add them to the array of tokens
 
                     lexemes.add(Lexeme(LexemeType.NUMBER, sb.toString()))
 
@@ -95,7 +97,7 @@ class ArithmeticParser {
             }
         }
 
-            // checking the balance of brackets
+        // checking the balance of brackets
 
         if (bracketsBalance != 0) throw RuntimeException("Out of balance between brackets!")
 
@@ -191,7 +193,7 @@ class ArithmeticParser {
 
     }
 
-        // processing a number or expression in parentheses
+    // processing a number or expression in parentheses
 
     private fun factor(lexemes: LexemeBuffer): Double {
 
@@ -202,7 +204,7 @@ class ArithmeticParser {
             LexemeType.OP_MINUS -> {
 
                 val value = factor(lexemes)
-                return  -value
+                return -value
             }
             LexemeType.OP_PLUS -> {
 
