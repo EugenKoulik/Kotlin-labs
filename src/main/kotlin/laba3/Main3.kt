@@ -3,7 +3,7 @@ package laba3
 fun main() {
 
 
-    val shapeFactory = object : ShapeFactoryImpl {}
+    val shapeFactory = ShapeFactoryImpl()
 
 
     val figures = listOf(
@@ -16,7 +16,6 @@ fun main() {
         shapeFactory.createRectangle(3.0, 4.0),
         shapeFactory.createTriangle(3.0, 4.0, 5.0)
     )
-
 
     var sumArea = 0.0
     var sumPerimeter = 0.0
@@ -48,9 +47,9 @@ fun main() {
     println("\nTotal area : $sumArea")
     println("\nTotal perimeter : $sumPerimeter")
 
-    println("\nFigure with biggest area: ${maxArea!!.calcArea()} - ${maxArea.shapeType}")
-    println("\nFigure with smallest area: ${minArea!!.calcArea()} - ${minArea.shapeType}")
-    println("\nFigure with biggest perimeter: ${maxPerimeter!!.calcPerimeter()} - ${maxPerimeter.shapeType}")
-    println("\nFigure with smallest perimeter: ${minPerimeter!!.calcPerimeter()} - ${minPerimeter.shapeType}")
+    println("\nFigure with biggest area: ${maxArea!!.calcArea()} - ${maxArea.javaClass.name}")
+    println("\nFigure with smallest area: ${minArea!!.calcArea()} - ${maxArea.javaClass.name}")
+    println("\nFigure with biggest perimeter: ${maxPerimeter!!.calcPerimeter()} - ${maxArea.javaClass.name}")
+    println("\nFigure with smallest perimeter: ${minPerimeter!!.calcPerimeter()} - ${maxArea.javaClass.name}")
 
 }

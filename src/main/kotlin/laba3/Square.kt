@@ -2,9 +2,7 @@ package laba3
 
 import kotlin.math.pow
 
-class Square(val side: Double) : Shape {
-
-    override var shapeType = Shapes.SQUARE
+class Square(private val side: Double) : Shape {
 
     init {
 

@@ -2,9 +2,8 @@ package laba3
 
 import kotlin.math.sqrt
 
-class Triangle(val side1: Double = 1.0, val side2: Double = 1.0, val side3: Double = 1.0) : Shape {
-
-    override var shapeType = Shapes.TRIANGLE
+class Triangle(private val side1: Double = 1.0, private val side2: Double = 1.0, private val side3: Double = 1.0) :
+    Shape {
 
     init {
 
@@ -15,8 +14,6 @@ class Triangle(val side1: Double = 1.0, val side2: Double = 1.0, val side3: Doub
         if (side1 >= side2 + side3 || side2 >= side1 + side3 || side3 >= side1 + side2)
 
             throw IllegalArgumentException(TRIANGLE_EXISTENCE_ERROR_MESSAGE)
-
-        shapeType = Shapes.TRIANGLE
     }
 
     // Heron's formula

@@ -2,9 +2,10 @@ package laba3
 
 import kotlin.math.abs
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 
-interface ShapeFactoryImpl : ShapeFactory {
+class ShapeFactoryImpl : ShapeFactory {
 
     // creating a shape with the specified parameters
 
@@ -35,12 +36,12 @@ interface ShapeFactoryImpl : ShapeFactory {
 
     override fun createRandomShape(): Shape {
 
-        return when (Shapes.values().random()) {
+        return when (Random.nextInt(1..4)) {
 
-            Shapes.CIRCLE -> createRandomCircle()
-            Shapes.SQUARE -> createRandomSquare()
-            Shapes.RECTANGLE -> createRandomRectangle()
-            Shapes.TRIANGLE -> createRandomTriangle()
+            1 -> createRandomCircle()
+            2 -> createRandomSquare()
+            3 -> createRandomRectangle()
+            else -> createRandomTriangle()
         }
     }
 }

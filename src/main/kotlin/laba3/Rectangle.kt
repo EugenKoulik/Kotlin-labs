@@ -1,8 +1,6 @@
 package laba3
 
-class Rectangle(val length: Double = 1.0, val width: Double = 1.0) : Shape {
-
-    override var shapeType = Shapes.RECTANGLE
+class Rectangle(private val length: Double = 1.0, private val width: Double = 1.0) : Shape {
 
     init {
 

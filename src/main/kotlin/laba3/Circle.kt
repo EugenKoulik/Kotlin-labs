@@ -1,9 +1,8 @@
 package laba3
+
 import kotlin.math.pow
 
-class Circle(val radius: Double) : Shape {
-
-    override var shapeType = Shapes.CIRCLE
+class Circle(private val radius: Double) : Shape {
 
     init {
 
@@ -16,6 +15,7 @@ class Circle(val radius: Double) : Shape {
         return Math.PI * radius.pow(2)
 
     }
+
     override fun calcPerimeter(): Double {
 
         return 2 * Math.PI * radius

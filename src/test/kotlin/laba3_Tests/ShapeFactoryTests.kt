@@ -124,7 +124,6 @@ class SquareTests {
 }
 
 
-
 class TriangleTests {
 
 
@@ -133,7 +132,7 @@ class TriangleTests {
 
         val rectangle = Triangle(3.0, 4.0, 5.0)
 
-        Assertions.assertEquals(6.0,  rectangle.calcArea(), PRECISION)
+        Assertions.assertEquals(6.0, rectangle.calcArea(), PRECISION)
     }
 
     @Test
