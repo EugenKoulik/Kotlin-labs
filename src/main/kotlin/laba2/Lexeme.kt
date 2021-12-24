@@ -1,8 +1,8 @@
 package laba2
 
 class Lexeme {
-    var type: LexemeType
-    var value: String
+    val type: LexemeType
+    val value: String
 
     constructor(type: LexemeType, value: String) {
         this.type = type

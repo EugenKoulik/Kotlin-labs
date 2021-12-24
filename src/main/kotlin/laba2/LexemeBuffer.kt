@@ -2,7 +2,7 @@ package laba2
 
 // array traversal information
 
-class LexemeBuffer(private var lexemes: List<Lexeme>) {
+class LexemeBuffer(private val lexemes: List<Lexeme>) {
 
     private var pos = 0
 

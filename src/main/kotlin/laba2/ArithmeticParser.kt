@@ -20,7 +20,7 @@ class ArithmeticParser {
     private fun lexAnalyze(expText: String): List<Lexeme> {
 
         if (expText.isEmpty()) {
-            throw RuntimeException("Empty string")
+            throw IllegalArgumentException("Empty string")
         }
 
         val lexemes = ArrayList<Lexeme>()
@@ -90,7 +90,7 @@ class ArithmeticParser {
                 } else {
 
                     if (currentSymbol != ' ') {
-                        throw RuntimeException("Unexpected character: $currentSymbol")
+                        throw IllegalArgumentException("Unexpected character: $currentSymbol")
                     }
                     position++
                 }
@@ -99,7 +99,7 @@ class ArithmeticParser {
 
         // checking the balance of brackets
 
-        if (bracketsBalance != 0) throw RuntimeException("Out of balance between brackets!")
+        if (bracketsBalance != 0) throw IllegalArgumentException("Out of balance between brackets!")
 
         lexemes.add(Lexeme(LexemeType.EOF, ""))
         return lexemes
@@ -139,7 +139,7 @@ class ArithmeticParser {
                     lexemes.back()
                     return value
                 }
-                else -> throw RuntimeException("Unexpected token")
+                else -> throw IllegalArgumentException("Unexpected token")
             }
         }
     }
@@ -163,7 +163,7 @@ class ArithmeticParser {
                     lexemes.back()
                     return value
                 }
-                else -> throw RuntimeException("Unexpected token")
+                else -> throw IllegalArgumentException("Unexpected token")
             }
         }
     }
@@ -187,7 +187,7 @@ class ArithmeticParser {
                     lexemes.back()
                     return value
                 }
-                else -> throw RuntimeException("Unexpected token")
+                else -> throw IllegalArgumentException("Unexpected token")
             }
         }
 
@@ -218,12 +218,13 @@ class ArithmeticParser {
 
                 if (lexeme.type != LexemeType.RIGHT_BRACKET) {
 
-                    throw RuntimeException("Out of balance between brackets!")
+                    throw IllegalArgumentException("Out of balance between brackets!")
                 }
 
                 return value
             }
-            else -> throw RuntimeException("Unexpected token")
+
+            else -> throw IllegalArgumentException("Unexpected token")
 
         }
     }

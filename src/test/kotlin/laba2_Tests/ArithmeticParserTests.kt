@@ -61,7 +61,7 @@ class ArithmeticParserTests {
 
             expression.calculateExpressionString("5+5)")
 
-        } catch (e: RuntimeException) {
+        } catch (e: IllegalArgumentException) {
 
             Assertions.assertEquals("Out of balance between brackets!", e.message)
         }
@@ -92,7 +92,7 @@ class ArithmeticParserTests {
 
             expression.calculateExpressionString("")
 
-        } catch (e: RuntimeException) {
+        } catch (e: IllegalArgumentException) {
 
             Assertions.assertEquals("Empty string", e.message)
         }
@@ -104,7 +104,7 @@ class ArithmeticParserTests {
 
             expression.calculateExpressionString("*2 - 1")
 
-        } catch (e: RuntimeException) {
+        } catch (e: IllegalArgumentException) {
 
             Assertions.assertEquals("Unexpected token", e.message)
         }
@@ -116,7 +116,7 @@ class ArithmeticParserTests {
 
             expression.calculateExpressionString("()")
 
-        } catch (e: RuntimeException) {
+        } catch (e: IllegalArgumentException) {
 
             Assertions.assertEquals("Unexpected token", e.message)
         }
@@ -129,7 +129,7 @@ class ArithmeticParserTests {
 
             expression.calculateExpressionString("2 */ 3")
 
-        } catch (e: RuntimeException) {
+        } catch (e: IllegalArgumentException) {
 
             Assertions.assertEquals("Unexpected token", e.message)
         }
@@ -142,7 +142,7 @@ class ArithmeticParserTests {
 
             expression.calculateExpressionString("()*(1 * 4)")
 
-        } catch (e: RuntimeException) {
+        } catch (e: IllegalArgumentException) {
 
             Assertions.assertEquals("Unexpected token", e.message)
         }
