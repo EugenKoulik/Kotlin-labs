@@ -2,58 +2,61 @@ package laba4
 
 import java.lang.ArithmeticException
 
-class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, columns: Int = 0) {
+class Matrix(rows: Int, columns: Int) {
 
-    private var matrix: List<DoubleArray>
+    private var matrix: Array<Array<Double>>
 
-    val size: Pair<Int, Int>
+     val rowsCount: Int
+        get() {
+            return matrix.size
+        }
+    
+
+     val columnsCount: Int
         get() {
 
-            return Pair(matrix.size, matrix[0].size)
+            return matrix[0].size
         }
+
 
     init {
 
         // if values and size were not specified in the constructor
 
-        if (matrixValues.isEmpty() && (rows == 0 || columns == 0)) {
+        if (rows == 0 || columns == 0) {
 
             throw IllegalArgumentException(EMPTY_MATRIX)
         }
 
         // if only dimensions were specified - create a zero matrix
 
-        if (matrixValues.isEmpty() && (rows > 0 && columns > 0)) {
+            matrix = Array(rows) {Array(columns) { 0.0 }}
 
-            matrix = List(columns) { DoubleArray(rows) { 0.0 } }
+    }
+
+    constructor(matrixValues: Array<Array<Double>>) : this(rows = matrixValues.size, columns = matrixValues[0].size)
+    {
+        val firstRowSize = matrixValues[0].size
+
+        matrixValues.forEach { row ->
+
+            if (row.size != firstRowSize)
+                throw IllegalArgumentException(DIFFERENT_SIZE)
         }
 
-        // write the values to the array list
-
-        else {
-
-            val firstRowSize = matrixValues[0].size
-
-            matrixValues.forEach { row ->
-
-                if (row.size != firstRowSize)
-                    throw IllegalArgumentException(DIFFERENT_SIZE)
-            }
-
-            matrix = matrixValues.toList()
-        }
+        matrix = matrixValues
     }
 
 
     operator fun plus(other: Matrix): Matrix {
 
-        if (!sizeEqual(other.size)) throw IllegalArgumentException(DIFFERENT_SIZE)
+        sizeEqual(other.rowsCount, other.columnsCount, this.rowsCount, this.columnsCount)
 
         // fill the answer matrix with zeros
 
-        val matrixAnswer = List(size.first) {
+        val matrixAnswer = Array(this.rowsCount) {
 
-            DoubleArray(size.second) { 0.0 }
+            Array(this.columnsCount) { 0.0 }
         }
 
         for (i in matrix.indices) {
@@ -70,11 +73,11 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
     operator fun minus(other: Matrix): Matrix {
 
-        if (!sizeEqual(other.size)) throw IllegalArgumentException(DIFFERENT_SIZE)
+        sizeEqual(other.rowsCount, other.columnsCount, this.rowsCount, this.columnsCount)
 
-        val matrixAnswer = List(size.first) {
+        val matrixAnswer = Array(this.rowsCount) {
 
-            DoubleArray(size.second) { 0.0 }
+            Array(this.columnsCount) { 0.0 }
 
         }
 
@@ -91,19 +94,19 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
     operator fun times(other: Matrix): Matrix {
 
-        if (size.second != other.size.first) throw IllegalArgumentException(WRONG_RATIO_SIZES)
+        if (this.columnsCount != other.rowsCount) throw IllegalArgumentException(WRONG_RATIO_SIZES)
 
-        val matrixAnswer = List(size.first) {
+        val matrixAnswer = Array(this.rowsCount) {
 
-            DoubleArray(other.size.second) { 0.0 }
+            Array(other.columnsCount) { 0.0 }
 
         }
 
-        for (i in 0 until size.first) {
+        for (i in 0 until this.rowsCount) {
 
-            for (j in 0 until other.size.second) {
+            for (j in 0 until other.columnsCount) {
 
-                for (k in 0 until size.second) {
+                for (k in 0 until this.columnsCount) {
 
                     matrixAnswer[i][j] += matrix[i][k] * other[k, j]
                 }
@@ -114,9 +117,9 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
     operator fun times(scalar: Double): Matrix {
 
-        val matrixAnswer = List(size.first) {
+        val matrixAnswer = Array(this.rowsCount) {
 
-            DoubleArray(size.second) { 0.0 }
+            Array(this.columnsCount) { 0.0 }
 
         }
 
@@ -135,9 +138,9 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
         if (scalar == 0.0) throw ArithmeticException(ZERO_DIVISION)
 
-        val matrixAnswer = List(size.first) {
+        val matrixAnswer = Array(this.rowsCount) {
 
-            DoubleArray(size.second) { 0.0 }
+            Array(this.columnsCount) { 0.0 }
 
         }
 
@@ -152,18 +155,19 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
         return Matrix(matrixAnswer)
     }
 
+
     operator fun get(i: Int, j: Int): Double {
 
-        if ((i >= size.first) || (j >= size.second)) throw IndexOutOfBoundsException(OUT_OF_RANGE)
+        if ((i >= this.rowsCount) || (j >= this.columnsCount)) throw IndexOutOfBoundsException(OUT_OF_RANGE)
 
         return matrix[i][j]
     }
 
     operator fun unaryMinus(): Matrix {
 
-        val matrixAnswer = List(size.first) {
+        val matrixAnswer = Array(this.rowsCount) {
 
-            DoubleArray(size.second) { 0.0 }
+            Array(this.columnsCount) { 0.0 }
         }
 
         for (i in matrix.indices) {
@@ -182,7 +186,7 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
     operator fun plusAssign(other: Matrix) {
 
-        if (!sizeEqual(other.size)) throw IllegalArgumentException(DIFFERENT_SIZE)
+        sizeEqual(other.rowsCount, other.columnsCount, this.rowsCount, this.columnsCount)
 
         for (i in matrix.indices) {
 
@@ -195,7 +199,7 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
     operator fun minusAssign(other: Matrix) {
 
-        if (!sizeEqual(other.size)) throw IllegalArgumentException(DIFFERENT_SIZE)
+        sizeEqual(other.rowsCount, other.columnsCount, this.rowsCount, this.columnsCount)
 
         for (i in matrix.indices) {
 
@@ -208,18 +212,18 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
 
     operator fun timesAssign(other: Matrix) {
 
-        if (size.second != other.size.first) throw IllegalArgumentException(WRONG_RATIO_SIZES)
+        if (this.columnsCount != other.rowsCount) throw IllegalArgumentException(WRONG_RATIO_SIZES)
 
-        val newMatrix: List<DoubleArray> = List(size.first) {
+        val newMatrix = Array(this.rowsCount) {
 
-            DoubleArray(other.size.second) { 0.0 }
+            Array(other.columnsCount) { 0.0 }
         }
 
-        for (i in 0 until size.first) {
+        for (i in 0 until this.rowsCount) {
 
-            for (j in 0 until other.size.second) {
+            for (j in 0 until other.columnsCount) {
 
-                for (k in 0 until size.second) {
+                for (k in 0 until this.columnsCount) {
 
                     newMatrix[i][j] += matrix[i][k] * other[k, j]
                 }
@@ -254,12 +258,12 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
         }
     }
 
-
     override fun equals(other: Any?): Boolean {
 
         other as Matrix
 
-        if (size != other.size) return false
+
+        if ((this.rowsCount != other.rowsCount) || (this.columnsCount!= other.columnsCount)) return false
 
         for (i in matrix.indices) {
 
@@ -302,14 +306,18 @@ class Matrix(matrixValues: List<DoubleArray> = emptyList(), rows: Int = 0, colum
     }
 
 
-    private fun sizeEqual(s: Pair<Int, Int>): Boolean {
+    private fun sizeEqual(firstCountRows: Int, firstCountColumns: Int, secondCountRows: Int, secondCountColumns: Int): Boolean {
 
-        return size == s
+        if((firstCountRows != secondCountRows) || (firstCountColumns != secondCountColumns)){
+
+            throw IllegalArgumentException(DIFFERENT_SIZE)
+        }
+        return true
     }
 
     operator fun set(i1: Int, i2: Int, value: Double) {
 
-        if ((i1 >= size.first) || (i2 >= size.second)) throw IndexOutOfBoundsException(OUT_OF_RANGE)
+        if ((i1 >= this.rowsCount) || (i2 >= this.columnsCount)) throw IndexOutOfBoundsException(OUT_OF_RANGE)
 
         matrix[i1][i2] = value
 

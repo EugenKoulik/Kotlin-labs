@@ -8,31 +8,33 @@ private const val PRECISION = 0.00001
 
 class MatrixTests {
 
-    private val matrix1 = Matrix(
-        listOf(
-            doubleArrayOf(1.0, 2.0),
-            doubleArrayOf(3.0, 4.0)
-        )
-    )
-    private val matrix2 = Matrix(
-        listOf(
-            doubleArrayOf(1.0, 0.0),
-            doubleArrayOf(0.0, 1.0)
-        )
-    )
+    private val matrix1 = Matrix(columns = 2, rows = 2)
 
+    private val matrix2 = Matrix(columns = 2, rows = 2)
+
+    init{
+
+        matrix1[0, 0] = 1.0
+        matrix1[0, 1] = 2.0
+        matrix1[1, 0] = 3.0
+        matrix1[1, 1] = 4.0
+
+        matrix2[0, 0] = 1.0
+        matrix2[0, 1] = 0.0
+        matrix2[1, 0] = 0.0
+        matrix2[1, 1] = 1.0
+
+    }
 
     @Test
     fun test_initByArray_correctResult() {
 
-        val matrixArr = listOf(
-            doubleArrayOf(1.0, 2.0),
-            doubleArrayOf(3.0, 4.0)
-        )
-
+        val matrixArr = Array(2) { Array(3) { 0.0 } }
+        matrixArr[0] = arrayOf(1.0, 2.0)
+        matrixArr[1] = arrayOf(3.0, 4.0)
         val matrix4 = Matrix(matrixArr)
 
-        Assertions.assertEquals(Pair(2, 2), matrix4.size)
+        Assertions.assertEquals(Pair(2, 2), Pair(matrix4.rowsCount, matrix4.columnsCount))
         Assertions.assertEquals(1.0, matrix4[0, 0])
         Assertions.assertEquals(2.0, matrix4[0, 1])
         Assertions.assertEquals(3.0, matrix4[1, 0])
@@ -42,14 +44,14 @@ class MatrixTests {
     @Test
     fun test_initBySize_correctResult() {
 
-        val matrix4 = Matrix(rows = 2, columns = 2)
+        val matrix4 = Matrix(columns = 2, rows = 2)
 
         matrix4[0, 0] = 1.0
         matrix4[0, 1] = 2.0
         matrix4[1, 0] = 3.0
         matrix4[1, 1] = 4.0
 
-        Assertions.assertEquals(Pair(2, 2), matrix4.size)
+        Assertions.assertEquals(Pair(2, 2), Pair(matrix4.rowsCount, matrix4.columnsCount))
         Assertions.assertEquals(1.0, matrix4[0, 0])
         Assertions.assertEquals(2.0, matrix4[0, 1])
         Assertions.assertEquals(3.0, matrix4[1, 0])
@@ -61,7 +63,9 @@ class MatrixTests {
 
         try {
 
-            Matrix(emptyList())
+            val matrixArr = Array(2) { Array(3) { 0.0 } }
+
+            Matrix(matrixArr)
 
         } catch (e: IllegalArgumentException) {
 
@@ -74,7 +78,11 @@ class MatrixTests {
 
         try {
 
-            Matrix(listOf(doubleArrayOf(1.0, 2.0), doubleArrayOf(3.0, 4.0, 5.0)))
+            val matrixArr = Array(2) { Array(3) { 0.0 } }
+            matrixArr[0] = arrayOf(1.0, 2.0, 10.0)
+            matrixArr[1] = arrayOf(3.0, 4.0)
+
+            Matrix(matrixArr)
 
         } catch (e: IllegalArgumentException) {
 
@@ -85,12 +93,10 @@ class MatrixTests {
     @Test
     fun test_plus_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(2.0, 2.0),
-                doubleArrayOf(3.0, 5.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(2.0, 2.0)
+        matrixArr[1] = arrayOf(3.0, 5.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, (matrix1 + matrix2))
     }
@@ -101,7 +107,12 @@ class MatrixTests {
 
         try {
 
-            Matrix(listOf(doubleArrayOf(1.0, 2.0), doubleArrayOf(3.0, 4.0))) + matrix1
+            val matrixArr = Array(2) { Array(3) { 0.0 } }
+            matrixArr[0] = arrayOf(2.0, 2.0, 3.0)
+            matrixArr[1] = arrayOf(3.0, 5.0, 8.0)
+            val matrixAnswer = Matrix(matrixArr)
+
+            matrixAnswer + matrix1
 
         } catch (e: IllegalArgumentException) {
 
@@ -113,12 +124,10 @@ class MatrixTests {
     @Test
     fun test_minus_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(0.0, 2.0),
-                doubleArrayOf(3.0, 3.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(0.0, 2.0)
+        matrixArr[1] = arrayOf(3.0, 3.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, (matrix1 - matrix2))
     }
@@ -128,7 +137,12 @@ class MatrixTests {
 
         try {
 
-            Matrix(listOf(doubleArrayOf(1.0, 2.0), doubleArrayOf(3.0, 4.0))) - matrix1
+            val matrixArr = Array(2) { Array(3) { 0.0 } }
+            matrixArr[0] = arrayOf(2.0, 2.0, 3.0)
+            matrixArr[1] = arrayOf(3.0, 5.0, 8.0)
+            val matrixAnswer = Matrix(matrixArr)
+
+            matrixAnswer - matrix1
 
         } catch (e: IllegalArgumentException) {
 
@@ -139,12 +153,10 @@ class MatrixTests {
     @Test
     fun test_times_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(1.0, 2.0),
-                doubleArrayOf(3.0, 4.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(1.0, 2.0)
+        matrixArr[1] = arrayOf(3.0, 4.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, (matrix1 * matrix2))
     }
@@ -155,7 +167,12 @@ class MatrixTests {
 
         try {
 
-            Matrix(listOf(doubleArrayOf(1.0, 2.0), doubleArrayOf(3.0, 4.0))) * matrix1
+            val matrixArr = Array(2) { Array(2) { 0.0 } }
+            matrixArr[0] = arrayOf(2.0, 2.0)
+            matrixArr[1] = arrayOf(3.0, 5.0)
+            val matrixAnswer = Matrix(matrixArr)
+
+            matrixAnswer * matrix1
 
         } catch (e: IllegalArgumentException) {
 
@@ -166,12 +183,10 @@ class MatrixTests {
     @Test
     fun test_timesScalar_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(5.0, 10.0),
-                doubleArrayOf(15.0, 20.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(5.0, 10.0)
+        matrixArr[1] = arrayOf(15.0, 20.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, (matrix1 * 5.0))
     }
@@ -180,12 +195,10 @@ class MatrixTests {
     @Test
     fun test_divScalar_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(0.5, 1.0),
-                doubleArrayOf(1.5, 2.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(0.5, 1.0)
+        matrixArr[1] = arrayOf(1.5, 2.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, (matrix1 / 2.0))
     }
@@ -227,19 +240,11 @@ class MatrixTests {
     @Test
     fun test_equals_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(0.5, 1.0),
-                doubleArrayOf(1.5, 2.0)
-            )
-        )
-
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(0.5, 1.0),
-                doubleArrayOf(1.5, 2.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(5.0, 10.0)
+        matrixArr[1] = arrayOf(15.0, 20.0)
+        val firstMatrix = Matrix(matrixArr)
+        val secondMatrix = Matrix(matrixArr)
 
         Assertions.assertTrue(firstMatrix == secondMatrix)
     }
@@ -248,12 +253,10 @@ class MatrixTests {
     @Test
     fun test_unaryPlus_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(1.0, 2.0),
-                doubleArrayOf(3.0, 4.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(1.0, 2.0)
+        matrixArr[1] = arrayOf(3.0, 4.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, +matrix1)
     }
@@ -262,12 +265,10 @@ class MatrixTests {
     @Test
     fun test_unaryMinus_correctResult() {
 
-        val matrixAnswer = Matrix(
-            listOf(
-                doubleArrayOf(-1.0, -2.0),
-                doubleArrayOf(-3.0, -4.0)
-            )
-        )
+        val matrixArr = Array(2) { Array(2) { 0.0 } }
+        matrixArr[0] = arrayOf(-1.0, -2.0)
+        matrixArr[1] = arrayOf(-3.0, -4.0)
+        val matrixAnswer = Matrix(matrixArr)
 
         Assertions.assertEquals(matrixAnswer, -matrix1)
     }
@@ -285,26 +286,23 @@ class MatrixTests {
     @Test
     fun test_plusAssign_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(0.0, 0.0),
-                doubleArrayOf(0.0, 0.0)
-            )
-        )
+        val matrixArr1 = Array(2) { Array(2) { 0.0 } }
+        matrixArr1[0] = arrayOf(0.0, 0.0)
+        matrixArr1[1] = arrayOf(0.0, 0.0)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(10.0, 10.0)
-            )
-        )
+        val firstMatrix = Matrix(matrixArr1)
 
-        val answerMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(10.0, 10.0)
-            )
-        )
+        val matrixArr2 = Array(2) { Array(2) { 0.0 } }
+        matrixArr2[0] = arrayOf(10.0, 10.0)
+        matrixArr2[1] = arrayOf(10.0, 10.0)
+
+        val secondMatrix = Matrix(matrixArr2)
+
+        val matrixArr3 = Array(2) { Array(2) { 0.0 } }
+        matrixArr3[0] = arrayOf(10.0, 10.0)
+        matrixArr3[1] = arrayOf(10.0, 10.0)
+
+        val answerMatrix = Matrix(matrixArr3)
 
         firstMatrix += secondMatrix
 
@@ -314,18 +312,16 @@ class MatrixTests {
     @Test
     fun test_plusAssignDifferentSize_exception() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(0.0, 0.0),
-                doubleArrayOf(0.0, 0.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(0.0, 0.0)
+        matrixArray1[1] = arrayOf(0.0, 0.0)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0)
-            )
-        )
+        val firstMatrix = Matrix(matrixArray1)
+
+        val matrixArray2 = Array(1) { Array(1) { 0.0 } }
+        matrixArray2[0] = arrayOf(0.0)
+
+        val secondMatrix = Matrix(matrixArray2)
 
         try {
 
@@ -338,28 +334,24 @@ class MatrixTests {
     }
 
     @Test
-    fun test_minus_assign() {
+    fun test_minusAssign_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(0.0, 0.0),
-                doubleArrayOf(0.0, 0.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(10.0, 10.0)
-            )
-        )
+        val matrixArray2 = Array(2) { Array(2) { 0.0 } }
+        matrixArray2[0] = arrayOf(5.0, 5.0)
+        matrixArray2[1] = arrayOf(5.0, 5.0)
+        val secondMatrix = Matrix(matrixArray2)
 
-        val answerMatrix = Matrix(
-            listOf(
-                doubleArrayOf(-10.0, -10.0),
-                doubleArrayOf(-10.0, -10.0)
-            )
-        )
+
+        val matrixArray3 = Array(2) { Array(2) { 0.0 } }
+        matrixArray3[0] = arrayOf(5.0, 5.0)
+        matrixArray3[1] = arrayOf(5.0, 5.0)
+        val answerMatrix = Matrix(matrixArray3)
+
 
         firstMatrix -= secondMatrix
 
@@ -369,18 +361,14 @@ class MatrixTests {
     @Test
     fun test_minusAssignDifferentSize_exception() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(0.0, 0.0),
-                doubleArrayOf(0.0, 0.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0)
-            )
-        )
+        val matrixArray2 = Array(1) { Array(1) { 0.0 } }
+        matrixArray2[0] = arrayOf(5.0)
+        val secondMatrix = Matrix(matrixArray2)
 
         try {
 
@@ -395,26 +383,20 @@ class MatrixTests {
     @Test
     fun test_timesAssign_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(5.0, 10.0),
-                doubleArrayOf(15.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(5.0, 10.0)
+        matrixArray1[1] = arrayOf(15.0, 20.0)
+        val firstMatrix = Matrix(matrixArray1)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(10.0, 10.0)
-            )
-        )
+        val matrixArray2 = Array(2) { Array(2) { 0.0 } }
+        matrixArray2[0] = arrayOf(10.0, 10.0)
+        matrixArray2[1] = arrayOf(10.0, 10.0)
+        val secondMatrix = Matrix(matrixArray2)
 
-        val answerMatrix = Matrix(
-            listOf(
-                doubleArrayOf(150.0, 150.0),
-                doubleArrayOf(350.0, 350.0)
-            )
-        )
+        val matrixArray3 = Array(2) { Array(2) { 0.0 } }
+        matrixArray3[0] = arrayOf(150.0, 150.0)
+        matrixArray3[1] = arrayOf(350.0, 350.0)
+        val answerMatrix = Matrix(matrixArray3)
 
         firstMatrix *= secondMatrix
 
@@ -424,40 +406,32 @@ class MatrixTests {
     @Test
     fun test_timesAssignSize_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(5.0, 10.0),
-                doubleArrayOf(15.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(5.0, 10.0)
+        matrixArray1[1] = arrayOf(15.0, 20.0)
+        val firstMatrix = Matrix(matrixArray1)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(10.0, 10.0)
-            )
-        )
+        val matrixArray2 = Array(2) { Array(2) { 0.0 } }
+        matrixArray2[0] = arrayOf(10.0, 10.0)
+        matrixArray2[1] = arrayOf(10.0, 10.0)
+        val secondMatrix = Matrix(matrixArray2)
 
         firstMatrix *= secondMatrix
 
-        Assertions.assertEquals(Pair(2, 2), firstMatrix.size)
+        Assertions.assertEquals(Pair(2, 2), Pair(firstMatrix.rowsCount, firstMatrix.columnsCount))
     }
 
     @Test
     fun test_timesAssignDifferentSize_exception() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(5.0, 10.0),
-                doubleArrayOf(15.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
 
-        val secondMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0)
-            )
-        )
+        val matrixArray2 = Array(1) { Array(1) { 0.0 } }
+        matrixArray2[0] = arrayOf(5.0)
+        val secondMatrix = Matrix(matrixArray2)
 
         try {
 
@@ -472,21 +446,17 @@ class MatrixTests {
     @Test
     fun test_timesAssignScalar_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(5.0, 10.0),
-                doubleArrayOf(15.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
 
         firstMatrix *= 2.0
 
-        val answerMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 20.0),
-                doubleArrayOf(30.0, 40.0)
-            )
-        )
+        val matrixArray3 = Array(2) { Array(2) { 0.0 } }
+        matrixArray3[0] = arrayOf(20.0, 20.0)
+        matrixArray3[1] = arrayOf(20.0, 20.0)
+        val answerMatrix = Matrix(matrixArray3)
 
         Assertions.assertEquals(answerMatrix, firstMatrix)
     }
@@ -494,21 +464,17 @@ class MatrixTests {
     @Test
     fun test_divAssignScalar_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(20.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
 
         firstMatrix /= 2.0
 
-        val answerMatrix = Matrix(
-            listOf(
-                doubleArrayOf(5.0, 5.0),
-                doubleArrayOf(10.0, 10.0)
-            )
-        )
+        val matrixArray3 = Array(2) { Array(2) { 0.0 } }
+        matrixArray3[0] = arrayOf(5.0, 5.0)
+        matrixArray3[1] = arrayOf(5.0, 5.0)
+        val answerMatrix = Matrix(matrixArray3)
 
         Assertions.assertEquals(answerMatrix, firstMatrix)
     }
@@ -516,12 +482,11 @@ class MatrixTests {
     @Test
     fun test_set_correctResult() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(20.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
+
         firstMatrix[0, 0] = 50.0
 
         Assertions.assertEquals(50.0, firstMatrix[0, 0], PRECISION)
@@ -530,12 +495,10 @@ class MatrixTests {
     @Test
     fun test_set_exception() {
 
-        val firstMatrix = Matrix(
-            listOf(
-                doubleArrayOf(10.0, 10.0),
-                doubleArrayOf(20.0, 20.0)
-            )
-        )
+        val matrixArray1 = Array(2) { Array(2) { 0.0 } }
+        matrixArray1[0] = arrayOf(10.0, 10.0)
+        matrixArray1[1] = arrayOf(10.0, 10.0)
+        val firstMatrix = Matrix(matrixArray1)
 
         try {
 
