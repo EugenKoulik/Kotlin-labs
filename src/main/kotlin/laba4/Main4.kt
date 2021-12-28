@@ -58,7 +58,7 @@ fun main() {
 
     // show answers
 
-    println("Matrix4 size: ${matrix4.rowsCount} / ${ matrix4.columnsCount}\n")
+    println("Matrix4 size: ${matrix4.rowsCount} / ${matrix4.columnsCount}\n")
 
     println("matrix1 + matrix2: \n${matrix1 + matrix2}")
     println("matrix2 - matrix1:\n${matrix2 - matrix1}")

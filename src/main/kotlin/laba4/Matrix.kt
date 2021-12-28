@@ -6,13 +6,13 @@ class Matrix(rows: Int, columns: Int) {
 
     private var matrix: Array<Array<Double>>
 
-     val rowsCount: Int
+    val rowsCount: Int
         get() {
             return matrix.size
         }
-    
 
-     val columnsCount: Int
+
+    val columnsCount: Int
         get() {
 
             return matrix[0].size
@@ -30,12 +30,11 @@ class Matrix(rows: Int, columns: Int) {
 
         // if only dimensions were specified - create a zero matrix
 
-            matrix = Array(rows) {Array(columns) { 0.0 }}
+        matrix = Array(rows) { Array(columns) { 0.0 } }
 
     }
 
-    constructor(matrixValues: Array<Array<Double>>) : this(rows = matrixValues.size, columns = matrixValues[0].size)
-    {
+    constructor(matrixValues: Array<Array<Double>>) : this(rows = matrixValues.size, columns = matrixValues[0].size) {
         val firstRowSize = matrixValues[0].size
 
         matrixValues.forEach { row ->
@@ -263,7 +262,7 @@ class Matrix(rows: Int, columns: Int) {
         other as Matrix
 
 
-        if ((this.rowsCount != other.rowsCount) || (this.columnsCount!= other.columnsCount)) return false
+        if ((this.rowsCount != other.rowsCount) || (this.columnsCount != other.columnsCount)) return false
 
         for (i in matrix.indices) {
 
@@ -306,9 +305,14 @@ class Matrix(rows: Int, columns: Int) {
     }
 
 
-    private fun sizeEqual(firstCountRows: Int, firstCountColumns: Int, secondCountRows: Int, secondCountColumns: Int): Boolean {
+    private fun sizeEqual(
+        firstCountRows: Int,
+        firstCountColumns: Int,
+        secondCountRows: Int,
+        secondCountColumns: Int
+    ): Boolean {
 
-        if((firstCountRows != secondCountRows) || (firstCountColumns != secondCountColumns)){
+        if ((firstCountRows != secondCountRows) || (firstCountColumns != secondCountColumns)) {
 
             throw IllegalArgumentException(DIFFERENT_SIZE)
         }

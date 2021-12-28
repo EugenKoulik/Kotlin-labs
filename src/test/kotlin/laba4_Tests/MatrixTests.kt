@@ -12,7 +12,7 @@ class MatrixTests {
 
     private val matrix2 = Matrix(columns = 2, rows = 2)
 
-    init{
+    init {
 
         matrix1[0, 0] = 1.0
         matrix1[0, 1] = 2.0
