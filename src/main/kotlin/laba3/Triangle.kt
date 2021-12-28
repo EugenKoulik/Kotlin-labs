@@ -1,7 +1,9 @@
 package laba3
 
 import kotlin.math.sqrt
+import kotlinx.serialization.Serializable
 
+@Serializable
 class Triangle(private val side1: Double = 1.0, private val side2: Double = 1.0, private val side3: Double = 1.0) :
     Shape {
 

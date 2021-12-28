@@ -1,7 +1,10 @@
 package laba3
 
 import kotlin.math.pow
+import kotlinx.serialization.Serializable
 
+
+@Serializable
 class Circle(private val radius: Double) : Shape {
 
     init {

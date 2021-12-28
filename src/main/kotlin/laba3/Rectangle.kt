@@ -1,5 +1,9 @@
 package laba3
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 class Rectangle(private val length: Double = 1.0, private val width: Double = 1.0) : Shape {
 
     init {
